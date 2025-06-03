@@ -1,0 +1,82 @@
+[
+  {
+    "driver": "Max Verstappen",
+    "total_points": 100,
+    "races_finished": 5,
+    "positions_gained": 40,
+    "podiums": 4,
+    "avg_speed": 190.0
+  },
+  {
+    "driver": "Sergio Perez",
+    "total_points": 79,
+    "races_finished": 5,
+    "positions_gained": 43,
+    "podiums": 4,
+    "avg_speed": 187.9
+  },
+  {
+    "driver": "Charles Leclerc",
+    "total_points": 69,
+    "races_finished": 5,
+    "positions_gained": 44,
+    "podiums": 2,
+    "avg_speed": 186.9
+  },
+  {
+    "driver": "Carlos Sainz",
+    "total_points": 65,
+    "races_finished": 4,
+    "positions_gained": 44,
+    "podiums": 3,
+    "avg_speed": 186.5
+  },
+  {
+    "driver": "Lando Norris",
+    "total_points": 55,
+    "races_finished": 5,
+    "positions_gained": 45,
+    "podiums": 2,
+    "avg_speed": 185.5
+  },
+  {
+    "driver": "Oscar Piastri",
+    "total_points": 36,
+    "races_finished": 5,
+    "positions_gained": 47,
+    "podiums": 0,
+    "avg_speed": 183.6
+  },
+  {
+    "driver": "Fernando Alonso",
+    "total_points": 34,
+    "races_finished": 5,
+    "positions_gained": 47,
+    "podiums": 0,
+    "avg_speed": 183.4
+  },
+  {
+    "driver": "George Russell",
+    "total_points": 32,
+    "races_finished": 5,
+    "positions_gained": 47,
+    "podiums": 0,
+    "avg_speed": 183.2
+  },
+  {
+    "driver": "Lewis Hamilton",
+    "total_points": 12,
+    "races_finished": 5,
+    "positions_gained": 49,
+    "podiums": 0,
+    "avg_speed": 181.2
+  },
+  {
+    "driver": "Lance Stroll",
+    "total_points": 7,
+    "races_finished": 5,
+    "positions_gained": 50,
+    "podiums": 0,
+    "avg_speed": 180.7
+  }
+]
