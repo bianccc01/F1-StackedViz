@@ -140,7 +140,7 @@ d3.json("data/f1_drivers_2024.json").then(data => {
                             ? `${originalValue.toFixed(1)} km/h`
                             : originalValue;
 
-                        // Usa il template HTML invece di .html()
+                        // Use the tooltip to display information
                         tooltip.select(".tooltip-driver").text(d.driver);
                         tooltip.select(".tooltip-metric")
                             .text(variableLabel)
@@ -193,7 +193,7 @@ d3.json("data/f1_drivers_2024.json").then(data => {
             .enter()
             .append("text")
             .attr("class", "driver-label")
-            .attr("x", (d, i) => scaleX(i) + scaleX.bandwidth() / 2)
+            .attr("x", (d, i) => scaleX(i) + scaleX.bandwidth() / 2 - 7)
             .attr("y", 820)
             .attr("text-anchor", "middle")
             .style("font-size", "12px")
