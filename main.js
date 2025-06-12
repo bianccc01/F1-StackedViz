@@ -45,16 +45,88 @@ d3.json("data/f1_drivers_2024.json").then(data => {
     // Create the SVG container
     const svg = d3.select("#svg-container")
         .append("svg")
-        .attr("width", 800)
+        .attr("width", 1000)
         .attr("height", 900);
 
+    // Create the legend
+    const legend = svg.append("g")
+        .attr("class", "legend")
+        .attr("transform", "translate(850, 30)");
+
+    // Add legend background
+    const legendBg = legend.append("rect")
+        .attr("x", -10)
+        .attr("y", -10)
+        .attr("width", 200)
+        .attr("height", config.length * 22 + 15)
+        .attr("fill", "rgba(255, 255, 255, 0.95)")
+        .attr("stroke", "#ddd")
+        .attr("stroke-width", 1)
+        .attr("rx", 5);
+
+    // Add legend items
+    const legendItems = legend.selectAll(".legend-item")
+        .data(config)
+        .enter()
+        .append("g")
+        .attr("class", "legend-item")
+        .attr("transform", (d, i) => `translate(0, ${i * 22})`)
+        .style("cursor", "pointer");
+
+    // Add invisible background for better click area
+    legendItems.append("rect")
+        .attr("x", -5)
+        .attr("y", -2)
+        .attr("width", 185)
+        .attr("height", 20)
+        .attr("fill", "transparent")
+        .attr("rx", 3);
+
+    // Add colored rectangles
+    legendItems.append("rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", 15)
+        .attr("height", 15)
+        .attr("fill", d => d.color)
+        .attr("rx", 2);
+
+    // Add text labels
+    legendItems.append("text")
+        .attr("x", 20)
+        .attr("y", 12)
+        .attr("font-size", "12px")
+        .attr("font-family", "Arial, sans-serif")
+        .attr("fill", "#333")
+        .text(d => d.label);
+
+    // Add click and hover functionality to legend items
+    legendItems
+        .on("click", function(event, d) {
+            const configIndex = config.findIndex(item => item.key === d.key);
+            swapToFirst(configIndex);
+        })
+        .on("mouseover", function(event, d) {
+            d3.select(this).select("rect:first-child")
+                .attr("fill", "rgba(0, 0, 0, 0.1)");
+
+            d3.select(this).select("text")
+                .style("font-weight", "bold");
+        })
+        .on("mouseout", function(event, d) {
+            d3.select(this).select("rect:first-child")
+                .attr("fill", "transparent");
+
+            d3.select(this).select("text")
+                .style("font-weight", "normal");
+        });
+
     // Create the tooltip for displaying information
-    // Crea il tooltip
     const tooltip = d3.select("body")
         .append("div")
         .attr("class", "tooltip");
 
-// Clona il template e lo aggiunge al tooltip
+    // Clona il template e lo aggiunge al tooltip
     const template = document.querySelector("#tooltip-template");
     tooltip.node().appendChild(template.content.cloneNode(true));
 
