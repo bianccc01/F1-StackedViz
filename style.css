@@ -13,29 +13,30 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
 }
 
 /* Header section - ancorato in alto */
 .header {
     flex-shrink: 0;
-    padding: 20px 0;
+    padding: 10px;
     background-color: #f0f0f0;
     z-index: 10;
+    text-align: left; /* Align text to the left */
+    position: absolute; /* Position in the top-left corner */
+    top: 0;
+    left: 0;
+    width: auto;
 }
 
 h1 {
-    text-align: center;
     margin: 0;
-    font-size: 30px;
+    font-size: 24px;
     color: #444;
 }
 
 p {
-    text-align: center;
     margin-top: 5px;
-    margin-bottom: 0;
-    font-size: 16px;
+    font-size: 14px;
     color: #666;
 }
 
@@ -43,9 +44,10 @@ p {
     flex: 1;
     width: 100%;
     display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    padding-bottom: 0;
+    justify-content: center; /* Align SVG to the top-left */
+    align-items: flex-start;
+    padding: 0;
+    margin-top: 30px; /* Add space below the header */
 }
 
 /* SVG styles */
