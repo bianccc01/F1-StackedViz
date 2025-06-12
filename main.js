@@ -42,22 +42,34 @@ d3.json("data/f1_drivers_2024.json").then(data => {
         };
     });
 
+    // Determina se siamo su mobile
+    const isMobile = window.innerWidth <= 768;
+
+    // Dimensioni responsive solo per mobile
+    const svgWidth = isMobile ? Math.max(window.innerWidth * 1.2, 600) : 1000;
+    const svgHeight = isMobile ? 650 : 900;
+
     // Create the SVG container
     const svg = d3.select("#svg-container")
         .append("svg")
-        .attr("width", 1000)
-        .attr("height", 900);
+        .attr("width", svgWidth)
+        .attr("height", svgHeight);
+
+    // Posizione legenda responsive solo per mobile
+    const legendX = isMobile ? 20 : 850;
+    const legendY = isMobile ? 20 : 30;
+    const legendWidth = isMobile ? Math.min(svgWidth - 40, 180) : 200;
 
     // Create the legend
     const legend = svg.append("g")
         .attr("class", "legend")
-        .attr("transform", "translate(850, 30)");
+        .attr("transform", `translate(${legendX}, ${legendY})`);
 
     // Add legend background
     const legendBg = legend.append("rect")
         .attr("x", -10)
         .attr("y", -10)
-        .attr("width", 200)
+        .attr("width", legendWidth)
         .attr("height", config.length * 22 + 15)
         .attr("fill", "rgba(255, 255, 255, 0.95)")
         .attr("stroke", "#ddd")
@@ -77,7 +89,7 @@ d3.json("data/f1_drivers_2024.json").then(data => {
     legendItems.append("rect")
         .attr("x", -5)
         .attr("y", -2)
-        .attr("width", 185)
+        .attr("width", legendWidth - 10)
         .attr("height", 20)
         .attr("fill", "transparent")
         .attr("rx", 3);
@@ -95,7 +107,7 @@ d3.json("data/f1_drivers_2024.json").then(data => {
     legendItems.append("text")
         .attr("x", 20)
         .attr("y", 12)
-        .attr("font-size", "12px")
+        .attr("font-size", isMobile ? "11px" : "12px")
         .attr("font-family", "Arial, sans-serif")
         .attr("fill", "#333")
         .text(d => d.label);
@@ -130,10 +142,13 @@ d3.json("data/f1_drivers_2024.json").then(data => {
     const template = document.querySelector("#tooltip-template");
     tooltip.node().appendChild(template.content.cloneNode(true));
 
-    // Define the X scale for positioning bars
+    // Define the X scale for positioning bars - responsive per mobile
+    const chartStart = isMobile ? 40 : 50;
+    const chartEnd = isMobile ? svgWidth - 40 : 750;
+
     const scaleX = d3.scaleBand()
         .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
-        .range([50, 750])
+        .range([chartStart, chartEnd])
         .padding(0.1);
 
     // Define the Y scale for bar heights
@@ -187,7 +202,8 @@ d3.json("data/f1_drivers_2024.json").then(data => {
         barsMerged.each(function (d, i) {
             const g = d3.select(this);
             g.selectAll("rect").remove();
-            let currentY = 800;
+            const baseY = isMobile ? svgHeight - 80 : 800;
+            let currentY = baseY;
 
             currentOrder.forEach((configIndex) => {
                 const variableKey = config[configIndex].key;
@@ -219,9 +235,24 @@ d3.json("data/f1_drivers_2024.json").then(data => {
                             .style("color", config[configIndex].color);
                         tooltip.select(".tooltip-value").text(formattedValue);
 
+                        // Posizionamento tooltip responsive per mobile
+                        let leftPos = event.pageX + 15;
+                        let topPos = event.pageY - 10;
+
+                        if (isMobile) {
+                            // Su mobile, verifica che il tooltip non esca dallo schermo
+                            const tooltipWidth = 180;
+                            if (leftPos + tooltipWidth > window.innerWidth) {
+                                leftPos = event.pageX - tooltipWidth - 15;
+                            }
+                            if (topPos < 50) {
+                                topPos = event.pageY + 20;
+                            }
+                        }
+
                         tooltip
-                            .style("left", (event.pageX + 15) + "px")
-                            .style("top", (event.pageY - 10) + "px")
+                            .style("left", leftPos + "px")
+                            .style("top", topPos + "px")
                             .transition()
                             .duration(200)
                             .style("opacity", 1);
@@ -232,12 +263,25 @@ d3.json("data/f1_drivers_2024.json").then(data => {
                             .style("stroke-width", "2px");
                     })
                     .on("mousemove", function (event) {
-                        d3.selectAll(".tooltip")
-                            .style("left", (event.pageX + 15) + "px")
-                            .style("top", (event.pageY - 10) + "px");
+                        let leftPos = event.pageX + 15;
+                        let topPos = event.pageY - 10;
+
+                        if (isMobile) {
+                            const tooltipWidth = 180;
+                            if (leftPos + tooltipWidth > window.innerWidth) {
+                                leftPos = event.pageX - tooltipWidth - 15;
+                            }
+                            if (topPos < 50) {
+                                topPos = event.pageY + 20;
+                            }
+                        }
+
+                        tooltip
+                            .style("left", leftPos + "px")
+                            .style("top", topPos + "px");
                     })
                     .on("mouseout", function () {
-                        d3.selectAll(".tooltip")
+                        tooltip
                             .transition()
                             .duration(150)
                             .style("opacity", 0);
@@ -266,9 +310,9 @@ d3.json("data/f1_drivers_2024.json").then(data => {
             .append("text")
             .attr("class", "driver-label")
             .attr("x", (d, i) => scaleX(i) + scaleX.bandwidth() / 2 - 7)
-            .attr("y", 820)
+            .attr("y", isMobile ? svgHeight - 60 : 820)
             .attr("text-anchor", "middle")
-            .style("font-size", "12px")
+            .style("font-size", isMobile ? "11px" : "12px")
             .style("font-weight", "bold")
             .style("fill", "#333")
             .style("opacity", 0)
