@@ -9,21 +9,41 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
+    height: 100%;
+    overflow: hidden;
     color: #333;
+}
+
+h1{
+    text-align: center;
+    margin: 10px 0;
+    font-size: 30px;
+    color: #444;
+}
+
+p{
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #666;
 }
 
 /* SVG container */
 #svg-container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 900px;
 }
 
 /* SVG styles */
 svg {
-    width: 800px;
-    height: auto;
+    display: inline-block;
 }
 
 /* Tooltip styles */
